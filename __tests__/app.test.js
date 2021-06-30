@@ -15,4 +15,18 @@ describe('demo routes', () => {
 
     expect(body).toEqual({ id: '1', email: 'cabbott93@gmail.com' });
   });
+
+  it('logs a user in via POST', async () => {
+    const user = { email: 'cabbott93@gmail.com', password: 'hello' };
+
+    await request(app).post('/api/auth/signup').send(user);
+
+    const { body } = await request(app).post('/api/auth/login').send(user);
+
+    expect(body).toEqual({ id: '1', email: 'cabbott93@gmail.com' });
+
+    const incorrectLogin = await request(app).post('/api/auth/login').send({ email: 'cabbott', password: 'hello' });
+
+    expect(incorrectLogin.boy).toBeFalsy();
+  });
 });
