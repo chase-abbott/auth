@@ -90,4 +90,8 @@ describe('RESTful routes for user posts', () => {
         });
       });
   });
+
+  it('gets a list of the 10 posts with the most comments', async () => {
+    
+  });
 });
