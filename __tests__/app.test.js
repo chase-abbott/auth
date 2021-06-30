@@ -25,8 +25,12 @@ describe('demo routes', () => {
 
     expect(body).toEqual({ id: '1', email: 'cabbott93@gmail.com' });
 
-    const incorrectLogin = await request(app).post('/api/auth/login').send({ email: 'cabbott', password: 'hello' });
+    const incorrectUsername = await request(app).post('/api/auth/login').send({ email: 'cabbott', password: 'hello' });
 
-    expect(incorrectLogin.boy).toBeFalsy();
+    expect(incorrectUsername.body).toEqual({ message: 'Invalid email or password', status: 500 });
+
+    const incorrectPassword = await request(app).post('/api/auth/login').send({ email: 'cabbott93@gmail.com', password: 'lo' });
+    expect(incorrectPassword.body).toEqual({ message: 'Incorrect password', status: 500 });
+
   });
 });
