@@ -77,4 +77,17 @@ describe('RESTful routes for user posts', () => {
         });
       });
   });
+
+  it('deletes a post from the database', async () => {
+    return agent.delete('/api/posts/1')
+      .then(({ body }) => {
+        expect(body).toEqual({
+          postId: '1',
+          email: 'cabbott94@gmail.com',
+          photoUrl: 'www.me.com/me',
+          caption: 'look at me',
+          tags: ['sun', 'summer']
+        });
+      });
+  });
 });
