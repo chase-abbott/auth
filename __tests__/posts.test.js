@@ -38,4 +38,17 @@ describe('RESTful routes for user posts', () => {
       });
      
   });
+
+  it('gets a single post from the database', async () => {
+    agent.get('/api/posts/1')
+      .then(({ body }) => {
+        expect(body).toEqual({
+          id: '1',
+          userId: '1',
+          photoUrl: 'www.me.com/me',
+          caption: 'look at me',
+          tags: ['sun', 'summer']
+        });
+      });
+  });
 });
