@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 CREATE TABLE posts (
   id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-  user_id TEXT NOT NULL,
+  user_id BIGINT NOT NULL,
   caption TEXT NOT NULL,
   photo_url TEXT NOT NULL,
   tags TEXT [] NOT NULL

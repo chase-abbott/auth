@@ -22,15 +22,15 @@ describe('RESTful routes for user posts', () => {
 
     const { body } = await agent.post('/api/posts').send(post);
 
-    expect(body).toEqual({ id: '1', userId: '1', ...post });
+    expect(body).toEqual({ id: '1', userId: '2', ...post });
   });
 
   it('gets all posts from the database', async () => {
-    agent.get('/api/posts')
+    return agent.get('/api/posts')
       .then(({ body }) => {
         expect(body).toEqual([{
           id: '1',
-          userId: '1',
+          userId: '2',
           photoUrl: 'www.me.com/me',
           caption: 'look at me',
           tags: ['sun', 'summer']
@@ -40,15 +40,18 @@ describe('RESTful routes for user posts', () => {
   });
 
   it('gets a single post from the database', async () => {
-    agent.get('/api/posts/1')
+    return agent.get('/api/posts/1')
       .then(({ body }) => {
         expect(body).toEqual({
           id: '1',
-          userId: '1',
+          email: 'cabbott94@gmail.com',
           photoUrl: 'www.me.com/me',
           caption: 'look at me',
           tags: ['sun', 'summer']
         });
-      });
+      })
+      .catch(err => err);
   });
+
+  // it('')
 });
