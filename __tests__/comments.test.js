@@ -30,15 +30,16 @@ describe('RESTful comment routes', () => {
   it('adds a comment to a post', async () => {
     console.log(postRes.body);
     const comment = {
+      postId: postRes.body.postId,
       comment: 'this is sick!'
     };
 
     return agent.post('/api/comments').send(comment)
       .then(({ body }) => {
         expect(body).toEqual({
-          comment_id: '1',
+          commentId: '1',
           comment: 'this is sick!',
-          post_id: postRes.body.id,
+          postId: postRes.body.postId,
           commentBy: user.email
         });
       });
