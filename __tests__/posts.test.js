@@ -5,10 +5,10 @@ import app from '../lib/app.js';
 
 describe('RESTful routes for user posts', () => {
   let user;
-  beforeEach(() => {
+  beforeAll(async () => {
     user = { email: 'cabbott93@gmail.com', password: 'hello' };
-    return request(app).post('/api/auth/signup').send(user)
-      .then(() => setup(pool));
+    await request.agent(app).post('/api/auth/signup').send(user);
+    return setup(pool);
   });
 
   it('adds a new post associated with a user', async () => {
@@ -19,8 +19,8 @@ describe('RESTful routes for user posts', () => {
       tags: ['sun', 'summer']
     };
 
-    const { body } = await request(app).post('/posts').send(post);
+    const { body } = await request.agent(app).post('/api/posts').send(post);
 
-    expect(body).toEqual({ id: 1, ...post });
+    expect(body).toEqual({ id: '1', ...post });
   });
 });
