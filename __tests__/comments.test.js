@@ -28,13 +28,24 @@ describe('RESTful comment routes', () => {
   });
 
   it('adds a comment to a post', async () => {
-    console.log(postRes.body);
     const comment = {
       postId: postRes.body.postId,
       comment: 'this is sick!'
     };
 
     return agent.post('/api/comments').send(comment)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          commentId: '1',
+          comment: 'this is sick!',
+          postId: postRes.body.postId,
+          commentBy: user.email
+        });
+      });
+  });
+
+  it('deletes a comment by its id', async () => {
+    return agent.delete('/api/comments/1')
       .then(({ body }) => {
         expect(body).toEqual({
           commentId: '1',
