@@ -10,6 +10,9 @@ describe('demo routes', () => {
 
   it('signs up a user via POST', async () => {
     const user = { email: 'cabbott93@gmail.com', password: 'hello' };
-    expect(user.body).toEqual({ id: 1, email: 'cabbott93@gmail.com' });
+
+    const { body } = await request(app).post('/api/auth/signup').send(user);
+
+    expect(body).toEqual({ id: 1, email: 'cabbott93@gmail.com' });
   });
 });
