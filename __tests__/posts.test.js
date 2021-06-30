@@ -47,7 +47,7 @@ describe('RESTful routes for user posts', () => {
     // need to add comments on join once comment resource is completed
     return request(app).get('/api/posts/1')
       .then(({ body }) => {
-        console.log(body);
+        
         expect(body).toEqual({
           postId: '1',
           email: 'cabbott94@gmail.com',
@@ -59,23 +59,22 @@ describe('RESTful routes for user posts', () => {
    
   });
 
-  // it.skip('updates the caption of a post in the database', async () => {
+  it('updates the caption of a post in the database', async () => {
 
-  //   const getRes = await agent.get('/api/posts/1');
-  //   const post = getRes.body;
-  //   console.log(post);
-  //   // post.caption = 'look here buddy';
+    const getRes = await agent.get('/api/posts/1');
+    const post = getRes.body;
+    post.caption = 'look here buddy';
     
-  //   return agent.patch('/api/posts/1')
-  //     .send(post)
-  //     .then(({ body }) => {
-  //       expect(body).toEqual({
-  //         id: '1',
-  //         userId: '2',
-  //         photoUrl: 'www.me.com/me',
-  //         caption: 'look here buddy',
-  //         tags: ['sun', 'summer']
-  //       });
-  //     });
-  // });
+    return agent.patch('/api/posts/1')
+      .send(post)
+      .then(({ body }) => {
+        expect(body).toEqual({
+          postId: '1',
+          userId: '2',
+          photoUrl: 'www.me.com/me',
+          caption: 'look here buddy',
+          tags: ['sun', 'summer']
+        });
+      });
+  });
 });
