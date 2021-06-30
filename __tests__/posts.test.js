@@ -3,19 +3,19 @@ import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
-describe.skip('RESTful routes for user posts', () => {
+describe('RESTful routes for user posts', () => {
   let user;
   let agent;
   beforeAll(async () => {
     agent = request.agent(app);
     user = { email: 'cabbott94@gmail.com', password: 'hello' };
     await agent.post('/api/auth/signup').send(user);
-    return setup(pool);
+    
   });
 
-  // afterAll(() => {
-  //   return setup(pool);
-  // });
+  afterAll(() => {
+    return setup(pool);
+  });
 
   it('adds a new post associated with a user', async () => {
     const post = {
@@ -44,6 +44,12 @@ describe.skip('RESTful routes for user posts', () => {
   });
 
   it('gets a single post from the database', async () => {
+    const comment = await agent.post('/api/comments').send({
+      postId: 1,
+      comment: 'this is sick!'
+    });
+    
+    console.log(comment.body);
     
     // need to add comments on join once comment resource is completed
     return request(app).get('/api/posts/1')
@@ -54,7 +60,11 @@ describe.skip('RESTful routes for user posts', () => {
           email: 'cabbott94@gmail.com',
           photoUrl: 'www.me.com/me',
           caption: 'look at me',
-          tags: ['sun', 'summer']
+          tags: ['sun', 'summer'],
+          comments: [{
+            commentId: '1',
+            comment: 'this is sick!'
+          }]
         });
       });
    
