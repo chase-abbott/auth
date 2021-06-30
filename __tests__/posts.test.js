@@ -83,9 +83,9 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual({
           postId: '1',
-          email: 'cabbott94@gmail.com',
+          userId: '2',
           photoUrl: 'www.me.com/me',
-          caption: 'look at me',
+          caption: 'look here buddy',
           tags: ['sun', 'summer']
         });
       });
