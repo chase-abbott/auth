@@ -22,7 +22,7 @@ describe('RESTful routes for user posts', () => {
 
     const { body } = await agent.post('/api/posts').send(post);
 
-    expect(body).toEqual({ id: '1', userId: '2', ...post });
+    expect(body).toEqual({ id: '1', userId: '1', ...post });
   });
 
   it('gets all posts from the database', async () => {
@@ -30,12 +30,12 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual([{
           id: '1',
-          userId: '2',
+          userId: '1',
           photoUrl: 'www.me.com/me',
           caption: 'look at me',
           tags: ['sun', 'summer']
         }]);
-      })
-      .catch(err => console.log(err));
+      });
+     
   });
 });
