@@ -13,6 +13,6 @@ describe('demo routes', () => {
 
     const { body } = await request(app).post('/api/auth/signup').send(user);
 
-    expect(body).toEqual({ id: 1, email: 'cabbott93@gmail.com' });
+    expect(body).toEqual({ id: '1', email: 'cabbott93@gmail.com' });
   });
 });
