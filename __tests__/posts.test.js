@@ -40,6 +40,7 @@ describe('RESTful routes for user posts', () => {
   });
 
   it('gets a single post from the database', async () => {
+    // need to add comments on join once comment resource is completed
     return agent.get('/api/posts/1')
       .then(({ body }) => {
         expect(body).toEqual({
@@ -53,5 +54,20 @@ describe('RESTful routes for user posts', () => {
       .catch(err => err);
   });
 
-  // it('')
+  it('updates the caption of a post in the database', async () => {
+
+    const getRes = await agent.get('/api/posts/1');
+
+    getRes.caption = 'look here buddy';
+    return agent.patch('/api/posts/1')
+      .then(({ body }) => {
+        expect(body).toEqual({
+          id: '1',
+          userId: '2',
+          photoUrl: 'www.me.com/me',
+          caption: 'look here buddy',
+          tags: ['sun', 'summer']
+        });
+      });
+  });
 });
