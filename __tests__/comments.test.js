@@ -45,6 +45,7 @@ describe('RESTful comment routes', () => {
   });
 
   it('deletes a comment by its id', async () => {
+   
     return agent.delete('/api/comments/1')
       .then(({ body }) => {
         expect(body).toEqual({
