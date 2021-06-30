@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS users,
-posts;
+posts,
+comments;
 CREATE TABLE users (
   user_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   email TEXT NOT NULL,
@@ -11,4 +12,10 @@ CREATE TABLE posts (
   caption TEXT NOT NULL,
   photo_url TEXT NOT NULL,
   tags TEXT [] NOT NULL
+);
+CREATE TABLE comments (
+  comment_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  comment_by TEXT NOT NULL,
+  post_id BIGINT NOT NULL,
+  comment TEXT NOT NULL
 );
