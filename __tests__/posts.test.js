@@ -49,8 +49,6 @@ describe('RESTful routes for user posts', () => {
       comment: 'this is sick!'
     });
     
-    console.log(comment.body);
-    
     // need to add comments on join once comment resource is completed
     return request(app).get('/api/posts/1')
       .then(({ body }) => {
@@ -88,6 +86,43 @@ describe('RESTful routes for user posts', () => {
         });
       });
   });
+  it('gets a list of the 10 posts with the most comments', async () => {
+    
+    await agent.post('/api/comments').send({
+      postId: 1,
+      comment: 'this is sick!'
+    });
+
+    await agent.post('/api/comments').send({
+      postId: 1,
+      comment: 'woah'
+    });
+    const firstPost = await agent.get('/api/posts/1');
+      
+
+    await agent.post('/api/posts').send({
+      photoUrl: 'www.me.com/me',
+      caption: 'look at this',
+      tags: ['moon', 'fall']
+    });
+
+    await agent.post('/api/comments').send({
+      postId: 2,
+      comment: 'sup'
+    });
+
+    await agent.post('/api/comments').send({
+      postId: 2,
+      comment: 'yo'
+    });
+
+    const secondPost = await agent.get('/api/posts/2');
+
+    return agent.get('/api/popular')
+      .then(({ body }) => {
+        expect(body).toEqual([firstPost.body, secondPost.body]);
+      });
+  });
 
   it('deletes a post from the database', async () => {
     return agent.delete('/api/posts/1')
@@ -102,7 +137,4 @@ describe('RESTful routes for user posts', () => {
       });
   });
 
-  it('gets a list of the 10 posts with the most comments', async () => {
-    
-  });
 });
