@@ -100,9 +100,16 @@ describe('RESTful routes for user posts', () => {
         });
       });
   });
-  
-  it.skip('gets a list of the 10 posts with the most comments', async () => {
+
+  it('gets a list of the 10 posts with the most comments', async () => {
     
+    const post = {
+      photoUrl: 'www.me.com/me',
+      caption: 'look at me',
+      tags: ['sun', 'summer']
+    };
+
+    await agent.post('/api/posts').send(post);
     await agent.post('/api/comments').send({
       postId: 1,
       comment: 'this is sick!'
@@ -111,7 +118,7 @@ describe('RESTful routes for user posts', () => {
       postId: 1,
       comment: 'woah'
     });
-    await agent.get('/api/posts/1');
+    
       
 
     await agent.post('/api/posts').send({
@@ -133,33 +140,40 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual([
           {
-            postId: '1',
-            userId: '1',
-            caption: 'look here buddy',
-            photoUrl: 'www.me.com/me',
-            tags: ['sun', 'summer'],
-            numberOfComments: '3'
-          },
-          {
             postId: '2',
             userId: '1',
             caption: 'look at this',
             photoUrl: 'www.me.com/me',
             tags: ['moon', 'fall'],
             numberOfComments: '2'
+          },
+          {
+            postId: '1',
+            userId: '1',
+            caption: 'look at me',
+            photoUrl: 'www.me.com/me',
+            tags: ['sun', 'summer'],
+            numberOfComments: '2'
           }
         ]);
       });
   });
 
-  it.skip('deletes a post from the database', async () => {
+  it('deletes a post from the database', async () => {
+    const post = {
+      photoUrl: 'www.me.com/me',
+      caption: 'look at me',
+      tags: ['sun', 'summer']
+    };
+
+    const postRes = await agent.post('/api/posts').send(post);
     return agent.delete('/api/posts/1')
       .then(({ body }) => {
         expect(body).toEqual({
           postId: '1',
           userId: '1',
           photoUrl: 'www.me.com/me',
-          caption: 'look here buddy',
+          caption: 'look at me',
           tags: ['sun', 'summer']
         });
       });
