@@ -7,10 +7,10 @@ describe('RESTful routes for user posts', () => {
   let user;
   let agent;
   beforeAll(async () => {
+    setup(pool);
     agent = request.agent(app);
     user = { email: 'cabbott94@gmail.com', password: 'hello' };
     await agent.post('/api/auth/signup').send(user);
-    return setup(pool);
   });
 
 
@@ -47,7 +47,7 @@ describe('RESTful routes for user posts', () => {
     });
     
     // need to add comments on join once comment resource is completed
-    return request(app).get('/api/posts/1')
+    return agent.get('/api/posts/1')
       .then(({ body }) => {
         
         expect(body).toEqual({
