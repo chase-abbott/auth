@@ -26,7 +26,7 @@ describe('RESTful routes for user posts', () => {
 
     const { body } = await agent.post('/api/posts').send(post);
 
-    expect(body).toEqual({ postId: '1', userId: '2', ...post });
+    expect(body).toEqual({ postId: '1', userId: '1', ...post });
   });
 
   it('gets all posts from the database', async () => {
@@ -34,7 +34,7 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual([{
           postId: '1',
-          userId: '2',
+          userId: '1',
           photoUrl: 'www.me.com/me',
           caption: 'look at me',
           tags: ['sun', 'summer']
@@ -44,7 +44,7 @@ describe('RESTful routes for user posts', () => {
   });
 
   it('gets a single post from the database', async () => {
-    const comment = await agent.post('/api/comments').send({
+    await agent.post('/api/comments').send({
       postId: 1,
       comment: 'this is sick!'
     });
@@ -79,7 +79,7 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual({
           postId: '1',
-          userId: '2',
+          userId: '1',
           photoUrl: 'www.me.com/me',
           caption: 'look here buddy',
           tags: ['sun', 'summer']
@@ -92,12 +92,11 @@ describe('RESTful routes for user posts', () => {
       postId: 1,
       comment: 'this is sick!'
     });
-
     await agent.post('/api/comments').send({
       postId: 1,
       comment: 'woah'
     });
-    const firstPost = await agent.get('/api/posts/1');
+    await agent.get('/api/posts/1');
       
 
     await agent.post('/api/posts').send({
@@ -105,22 +104,36 @@ describe('RESTful routes for user posts', () => {
       caption: 'look at this',
       tags: ['moon', 'fall']
     });
-
     await agent.post('/api/comments').send({
       postId: 2,
       comment: 'sup'
     });
-
     await agent.post('/api/comments').send({
       postId: 2,
       comment: 'yo'
     });
-
-    const secondPost = await agent.get('/api/posts/2');
+    await agent.get('/api/posts/2');
 
     return agent.get('/api/popular')
       .then(({ body }) => {
-        expect(body).toEqual([firstPost.body, secondPost.body]);
+        expect(body).toEqual([
+          {
+            postId: '1',
+            userId: '1',
+            caption: 'look here buddy',
+            photoUrl: 'www.me.com/me',
+            tags: ['sun', 'summer'],
+            numberOfComments: '3'
+          },
+          {
+            postId: '2',
+            userId: '1',
+            caption: 'look at this',
+            photoUrl: 'www.me.com/me',
+            tags: ['moon', 'fall'],
+            numberOfComments: '2'
+          }
+        ]);
       });
   });
 
@@ -129,7 +142,7 @@ describe('RESTful routes for user posts', () => {
       .then(({ body }) => {
         expect(body).toEqual({
           postId: '1',
-          userId: '2',
+          userId: '1',
           photoUrl: 'www.me.com/me',
           caption: 'look here buddy',
           tags: ['sun', 'summer']
