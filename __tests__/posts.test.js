@@ -7,7 +7,7 @@ describe('RESTful routes for user posts', () => {
   let user;
   let agent;
   beforeEach(async () => {
-    setup(pool);
+    await setup(pool);
     agent = request.agent(app);
     user = { email: 'cabbott94@gmail.com', password: 'hello' };
     await agent.post('/api/auth/signup').send(user);
