@@ -10,12 +10,9 @@ describe('RESTful routes for user posts', () => {
     agent = request.agent(app);
     user = { email: 'cabbott94@gmail.com', password: 'hello' };
     await agent.post('/api/auth/signup').send(user);
-    
-  });
-
-  afterAll(() => {
     return setup(pool);
   });
+
 
   it('adds a new post associated with a user', async () => {
     const post = {
